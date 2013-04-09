@@ -215,7 +215,11 @@ public class QSCheckerReporter extends AbstractMavenReport {
             startReport(checkers, locale);
             doFileSummary(globalFilesViolations);
             doFileReports(globalFilesViolations);
-            getLog().info("Your report is ready at " + mavenProject.getModel().getReporting().getOutputDirectory() + File.separator + getOutputName() + ".html");
+            // Display both the file name and a link for browser access 
+            String reportName = mavenProject.getModel().getReporting().getOutputDirectory() + File.separator + getOutputName() + ".html";
+            getLog().info("Your report is ready at " + reportName + System.getProperty("line.separator") + 
+                "       You can access the report using Chrome or Firefox at the following URL: " + 
+                System.getProperty("line.separator") + "            file://" + reportName);
         } catch (Exception e) {
             throw new MavenReportException(e.getMessage(), e);
         }
