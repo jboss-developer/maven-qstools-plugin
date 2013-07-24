@@ -99,6 +99,13 @@ rules:
        skipMavenCentralRepositoryChecker: true
        expected-bom-versions:
          - org.jboss.bom: 1.0.1.Final-redhat-1
+   - &fuse
+       groupid: org.jboss.quickstarts.fuse
+       skipMavenCentralRepositoryChecker: true
+       readme-metadatas:
+         - "Target Product:": "EAP|WFK|JPP|JDG|Fuse"
+       artifactid-prefix: ""
+         
 
 #Quickstarts
 quickstarts:
@@ -110,3 +117,6 @@ quickstarts:
    org.gatein.portal.quickstarts:
      - *default
      - *jpp
+   org.jboss.quickstarts.fuse:
+     - *default
+     - *fuse
