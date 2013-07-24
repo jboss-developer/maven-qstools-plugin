@@ -96,7 +96,11 @@ public abstract class AbstractProjectChecker implements QSChecker {
             if (violationsQtd > 0) {
                 log.info("There are " + violationsQtd + " checkers errors");
             }
+        } catch (IOException ioe) {
+               // Log it and continue. If there's no file, there's nothing to ignore.
+               log.info("No .quickstarts_ignore file found. Proceeding without one.");
         } catch (Exception e) {
+               // Any other exception is a problem. 
             throw new QSCheckerException(e);
         }
         return results;
