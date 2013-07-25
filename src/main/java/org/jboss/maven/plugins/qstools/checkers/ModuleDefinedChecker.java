@@ -35,8 +35,6 @@ import org.w3c.dom.Document;
 @Component(role = QSChecker.class, hint = "moduleDefinedChecker")
 public class ModuleDefinedChecker extends AbstractProjectChecker {
 
-    private static final String[] IGNORE_MODULES = new String[] { "dist", "template" };
-
     /*
      * (non-Javadoc)
      * 
@@ -74,7 +72,7 @@ public class ModuleDefinedChecker extends AbstractProjectChecker {
                 submodules.add(f.getName());
             }
         }
-        submodules.removeAll(Arrays.asList(IGNORE_MODULES));
+        submodules.removeAll(getConfigurationProvider().getQuickstartsRules(project.getGroupId()).getIgnoredModules());
         for (String dir : submodules) {
             if (!project.getModules().contains(dir)) {
                 String msg = "The following dir [%s] is not listed as one of project submodules";

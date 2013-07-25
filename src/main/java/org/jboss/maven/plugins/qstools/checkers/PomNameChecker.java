@@ -27,10 +27,8 @@ import javax.xml.xpath.XPathConstants;
 
 import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.component.annotations.Component;
-import org.codehaus.plexus.component.annotations.Requirement;
 import org.jboss.maven.plugins.qstools.QSChecker;
 import org.jboss.maven.plugins.qstools.Violation;
-import org.jboss.maven.plugins.qstools.config.ConfigurationProvider;
 import org.jboss.maven.plugins.qstools.config.Rules;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -43,9 +41,6 @@ import org.w3c.dom.Node;
 public class PomNameChecker extends AbstractProjectChecker {
 
     private static final String TARGET_PRODUCT_TAG = "Target Product:";
-
-    @Requirement
-    private ConfigurationProvider configurationProvider;
 
     /*
      * (non-Javadoc)
@@ -66,7 +61,7 @@ public class PomNameChecker extends AbstractProjectChecker {
      */
     @Override
     public void processProject(MavenProject project, Document doc, Map<String, List<Violation>> results) throws Exception {
-        Rules rules = configurationProvider.getQuickstartsRules(project.getGroupId());
+        Rules rules = getConfigurationProvider().getQuickstartsRules(project.getGroupId());
         String pomNamePattern = rules.getPomNamePattern();
         String pomNamePatternSubmodule = rules.getPomNamePatternForSubmodule();
         String folderName = project.getBasedir().getName();

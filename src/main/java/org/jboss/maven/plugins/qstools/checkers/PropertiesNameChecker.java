@@ -24,10 +24,8 @@ import javax.xml.xpath.XPathConstants;
 
 import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.component.annotations.Component;
-import org.codehaus.plexus.component.annotations.Requirement;
 import org.jboss.maven.plugins.qstools.QSChecker;
 import org.jboss.maven.plugins.qstools.Violation;
-import org.jboss.maven.plugins.qstools.config.ConfigurationProvider;
 import org.jboss.maven.plugins.qstools.maven.MavenDependency;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -39,10 +37,6 @@ import org.w3c.dom.NodeList;
  */
 @Component(role = QSChecker.class, hint = "propertiesNameChecker")
 public class PropertiesNameChecker extends AbstractProjectChecker {
-    
-    @Requirement
-    private ConfigurationProvider configurationProvider;
-
 
     /*
      * (non-Javadoc)
@@ -62,7 +56,7 @@ public class PropertiesNameChecker extends AbstractProjectChecker {
      */
     @Override
     public void processProject(MavenProject project, Document doc, Map<String, List<Violation>> results) throws Exception {
-        Properties recommendedPropertiesNames = configurationProvider.getQuickstartsRules(project.getGroupId()).getPropertiesNames();
+        Properties recommendedPropertiesNames = getConfigurationProvider().getQuickstartsRules(project.getGroupId()).getPropertiesNames();
         NodeList dependencies = (NodeList) getxPath().evaluate("//dependencies/dependency| //plugins/plugin ", doc, XPathConstants.NODESET);
         // Iterate over all Declared Dependencies
         for (int x = 0; x < dependencies.getLength(); x++) {
@@ -82,7 +76,7 @@ public class PropertiesNameChecker extends AbstractProjectChecker {
                 if (recommendedNameGA != null && !recommendedNameGA.equals(version)) {
                     wrongVersionName = true;
                 }
-                //Just check GroupId only if don't find GroupId+ArtifactId
+                // Just check GroupId only if don't find GroupId+ArtifactId
                 if (recommendedNameGA == null && recommendedNameG != null && !recommendedNameG.equals(version)) {
                     wrongVersionName = true;
                 }

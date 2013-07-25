@@ -29,10 +29,8 @@ import java.util.regex.Pattern;
 
 import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.component.annotations.Component;
-import org.codehaus.plexus.component.annotations.Requirement;
 import org.jboss.maven.plugins.qstools.QSChecker;
 import org.jboss.maven.plugins.qstools.Violation;
-import org.jboss.maven.plugins.qstools.config.ConfigurationProvider;
 import org.w3c.dom.Document;
 
 /**
@@ -41,9 +39,6 @@ import org.w3c.dom.Document;
  */
 @Component(role = QSChecker.class, hint = "readmeChecker")
 public class ReadmeChecker extends AbstractProjectChecker {
-
-    @Requirement
-    private ConfigurationProvider configurationProvider;
 
     private String regexPattern;
 
@@ -86,7 +81,7 @@ public class ReadmeChecker extends AbstractProjectChecker {
      * @param string
      */
     private void setupRegexPattern(String groupid) {
-        Map<String, String> metadatas = configurationProvider.getQuickstartsRules(groupid).getReadmeMetadatas();
+        Map<String, String> metadatas = getConfigurationProvider().getQuickstartsRules(groupid).getReadmeMetadatas();
         StringBuilder sb = new StringBuilder();
         for (String metadata : metadatas.keySet()) {
             sb.append(metadata + "|");
@@ -99,7 +94,7 @@ public class ReadmeChecker extends AbstractProjectChecker {
      * Check if the file contains all defined metadata
      */
     private void checkReadmeFile(String groupId, File readme, Map<String, List<Violation>> results) throws IOException {
-        Map<String, String> metadatas = configurationProvider.getQuickstartsRules(groupId).getReadmeMetadatas();
+        Map<String, String> metadatas = getConfigurationProvider().getQuickstartsRules(groupId).getReadmeMetadatas();
         BufferedReader br = new BufferedReader(new FileReader(readme));
         try {
             Pattern p = Pattern.compile(regexPattern);

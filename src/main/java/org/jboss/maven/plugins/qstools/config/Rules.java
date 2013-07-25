@@ -92,6 +92,16 @@ public class Rules {
         }
         return list;
     }
+    
+    public List<String> getIgnoredModules(){
+        @SuppressWarnings("unchecked")
+        List<Object> modules = (List<Object>) getConfig("ignored-modules");
+        List<String> list = new ArrayList<String>();
+        for (Object o : modules) {
+            list.add((String) o);
+        }
+        return list;
+    }
 
     @SuppressWarnings("unchecked")
     public Map<String, String> getReadmeMetadatas() {

@@ -16,11 +16,8 @@
  */
 package org.jboss.maven.plugins.qstools.checkers;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -34,10 +31,12 @@ import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.component.annotations.Requirement;
 import org.codehaus.plexus.context.Context;
+import org.jboss.maven.plugins.qstools.Constants;
 import org.jboss.maven.plugins.qstools.DependencyProvider;
 import org.jboss.maven.plugins.qstools.QSChecker;
 import org.jboss.maven.plugins.qstools.QSCheckerException;
 import org.jboss.maven.plugins.qstools.Violation;
+import org.jboss.maven.plugins.qstools.config.ConfigurationProvider;
 import org.jboss.maven.plugins.qstools.xml.PositionalXMLReader;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -49,6 +48,9 @@ public abstract class AbstractProjectChecker implements QSChecker {
 
     @Requirement
     private DependencyProvider dependencyProvider;
+    
+    @Requirement
+    private ConfigurationProvider configurationProvider;
 
     private XPath xPath = XPathFactory.newInstance().newXPath();
 
@@ -79,12 +81,13 @@ public abstract class AbstractProjectChecker implements QSChecker {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public Map<String, List<Violation>> check(MavenProject project, MavenSession mavenSession, List<MavenProject> reactorProjects, Log log) throws QSCheckerException {
         this.mavenSession = mavenSession;
         this.log = log;
         Map<String, List<Violation>> results = new TreeMap<String, List<Violation>>();
         try {
-            List<String> ignoredQuickstarts = readIgnoredFile();
+            List<String> ignoredQuickstarts = (List<String>) context.get(Constants.IGNORED_QUICKSTARTS_CONTEXT);
             for (MavenProject mavenProject : reactorProjects) {
                 if (!ignoredQuickstarts.contains(mavenProject.getBasedir().getName())) {
                     Document doc = PositionalXMLReader.readXML(new FileInputStream(mavenProject.getFile()));
@@ -97,30 +100,13 @@ public abstract class AbstractProjectChecker implements QSChecker {
                 log.info("There are " + violationsQtd + " checkers errors");
             }
         } catch (Exception e) {
+            // Any other exception is a problem.
             throw new QSCheckerException(e);
         }
         return results;
     }
 
-    /**
-     * @return
-     * @throws IOException
-     */
-    private List<String> readIgnoredFile() throws IOException {
-        List<String> result = new ArrayList<String>();
-        BufferedReader br = new BufferedReader(new FileReader(".quickstarts_ignore"));
-        try {
-            while (br.ready()) {
-                String line = br.readLine();
-                result.add(line);
-            }
-        } finally {
-            if (br != null) {
-                br.close();
-            }
-        }
-        return result;
-    }
+    
 
     protected int getLineNumberFromNode(Node node) {
         if (node == null) {
@@ -172,6 +158,20 @@ public abstract class AbstractProjectChecker implements QSChecker {
      */
     protected MavenSession getMavenSession() {
         return mavenSession;
+    }
+    
+    /**
+     * @return the context
+     */
+    public Context getContext() {
+        return context;
+    }
+    
+    /**
+     * @return the configurationProvider
+     */
+    public ConfigurationProvider getConfigurationProvider() {
+        return configurationProvider;
     }
 
 }

@@ -29,6 +29,8 @@ public class Constants {
     public static final String LOG_CONTEXT = "qstools.log";
 
     public static final String MAVEN_SESSION_CONTEXT = "qstools.mavenSession";
+    
+    public static final String IGNORED_QUICKSTARTS_CONTEXT = "qstools.ignored.quickstarts";
 
     public static final int CACHE_EXPIRES_SECONDS = 60; // 1 minute;
 }

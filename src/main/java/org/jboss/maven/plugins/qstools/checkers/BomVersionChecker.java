@@ -24,14 +24,11 @@ import javax.xml.xpath.XPathConstants;
 
 import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.component.annotations.Component;
-import org.codehaus.plexus.component.annotations.Requirement;
-import org.codehaus.plexus.context.Context;
 import org.jboss.jdf.stacks.model.Bom;
 import org.jboss.jdf.stacks.model.Stacks;
 import org.jboss.maven.plugins.qstools.Constants;
 import org.jboss.maven.plugins.qstools.QSChecker;
 import org.jboss.maven.plugins.qstools.Violation;
-import org.jboss.maven.plugins.qstools.config.ConfigurationProvider;
 import org.jboss.maven.plugins.qstools.maven.MavenDependency;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -44,12 +41,6 @@ import org.w3c.dom.NodeList;
 @Component(role = QSChecker.class, hint = "bomVersionChecker")
 public class BomVersionChecker extends AbstractProjectChecker {
 
-    @Requirement
-    private Context context;
-
-    @Requirement
-    private ConfigurationProvider configurationProvider;
-
     /*
      * (non-Javadoc)
      * 
@@ -58,7 +49,7 @@ public class BomVersionChecker extends AbstractProjectChecker {
      */
     @Override
     public void processProject(MavenProject project, Document doc, Map<String, List<Violation>> results) throws Exception {
-        Properties expectedBomVersions = configurationProvider.getQuickstartsRules(project.getGroupId()).getExpectedBomVersion();
+        Properties expectedBomVersions = getConfigurationProvider().getQuickstartsRules(project.getGroupId()).getExpectedBomVersion();
         NodeList dependencies = (NodeList) getxPath().evaluate("/project/dependencyManagement/dependencies/dependency", doc, XPathConstants.NODESET);
         // Iterate over all Declared Managed Dependencies
         for (int x = 0; x < dependencies.getLength(); x++) {
@@ -66,7 +57,7 @@ public class BomVersionChecker extends AbstractProjectChecker {
             MavenDependency mavenDependency = getDependencyProvider().getDependencyFromNode(project, dependency);
             // use stacks to find if the project is using a jdf bom
             Bom bomUsed = null;
-            Stacks stacks = (Stacks) context.get(Constants.STACKS_CONTEXT);
+            Stacks stacks = (Stacks) getContext().get(Constants.STACKS_CONTEXT);
             for (Bom bom : stacks.getAvailableBoms()) {
                 if (bom.getGroupId().equals(mavenDependency.getGroupId()) && bom.getArtifactId().equals(mavenDependency.getArtifactId())) {
                     bomUsed = bom;

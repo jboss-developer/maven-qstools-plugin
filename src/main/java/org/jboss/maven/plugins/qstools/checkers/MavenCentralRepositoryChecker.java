@@ -33,7 +33,6 @@ import org.codehaus.plexus.component.annotations.Component;
 import org.codehaus.plexus.component.annotations.Requirement;
 import org.jboss.maven.plugins.qstools.QSChecker;
 import org.jboss.maven.plugins.qstools.Violation;
-import org.jboss.maven.plugins.qstools.config.ConfigurationProvider;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
@@ -46,9 +45,6 @@ public class MavenCentralRepositoryChecker extends AbstractProjectChecker {
 
     @Requirement
     private RepositorySystem repositorySystem;
-
-    @Requirement
-    private ConfigurationProvider configurationProvider;
 
     /*
      * (non-Javadoc)
@@ -69,7 +65,7 @@ public class MavenCentralRepositoryChecker extends AbstractProjectChecker {
      */
     @Override
     public void processProject(MavenProject project, Document doc, Map<String, List<Violation>> results) throws Exception {
-        if (!configurationProvider.getQuickstartsRules(project.getGroupId()).isSkipMavenCentralRepositoryChecker()) {
+        if (!getConfigurationProvider().getQuickstartsRules(project.getGroupId()).isSkipMavenCentralRepositoryChecker()) {
             for (Dependency dependency : project.getDependencies()) {
                 Artifact dependencyArtifact = repositorySystem.createProjectArtifact(dependency.getGroupId(), dependency.getArtifactId(), dependency.getVersion());
                 ArtifactResolutionRequest arr = new ArtifactResolutionRequest();
