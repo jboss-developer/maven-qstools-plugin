@@ -80,7 +80,7 @@ rules:
            #target
            - "**/target/**"
            #hidden files and directories
-           - "**/.*/*.*"
+           - "**/.*/**"
            - ".*"
            #known libraries
            - "**/jquery*"
