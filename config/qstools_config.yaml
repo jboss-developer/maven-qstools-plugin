@@ -32,10 +32,10 @@ rules:
          - ear: "${project.parent.artifactId}"
 
        #Default Maven groupId
-       groupid: org.jboss.as.quickstarts
+       groupid: org.jboss.quickstarts.eap
 
        #Maven ArtifactId prefix
-       artifactid-prefix: "jboss-as-"
+       artifactid-prefix: "jboss-"
 
        #Pom name pattern
        pom-name-pattern: "JBoss <target-product> Quickstart: <project-folder>"
@@ -123,11 +123,10 @@ rules:
        artifactid-prefix: "sandbox-"
    - &wfk
        groupid: org.jboss.quickstarts.wfk
-       artifactid-prefix: "jboss-"
    - &jdg
-       groupid: com.jboss.datagrid.quickstart
+       groupid: org.jboss.quickstarts.jdg
    - &jpp
-       groupid: org.gatein.portal.quickstarts
+       groupid: org.jboss.quickstarts.jpp
        expected-bom-versions:
          - org.jboss.bom: 1.0.1.Final-redhat-1
        ignored-checkers:
@@ -153,7 +152,7 @@ rules:
          - DependencyChecker #QStools doesn't use BOMs
          - FinalNameChecker #QStools isn't an application
    - &stacks
-       groupid: org.jboss.jdf #It should be changed to org.jboss.stacks
+       groupid: org.jboss.stacks
        artifactid-prefix: "stacks-" #It should be changed/removed to "jboss-" on 1.2
        ignored-checkers:
          - ReadmeChecker #Stacks-client is not a quickstart
@@ -162,7 +161,7 @@ rules:
 
 #Quickstarts
 quickstarts:
-   org.jboss.as.quickstarts:
+   org.jboss.quickstarts.eap:
      - *default
    org.jboss.quickstarts.wfk:
      - *default
@@ -170,10 +169,10 @@ quickstarts:
    org.jboss.quickstarts.sandbox:
      - *default
      - *sandbox
-   com.jboss.datagrid.quickstart:
+   org.jboss.quickstarts.jdg:
      - *default
      - *jdg
-   org.gatein.portal.quickstarts:
+   org.jboss.quickstarts.jpp:
      - *default
      - *jpp
    org.jboss.quickstarts.fuse:
@@ -185,6 +184,6 @@ quickstarts:
    org.jboss.maven.plugins:
      - *default
      - *qstools
-   org.jboss.jdf:
+   org.jboss.stacks:
      - *default
      - *stacks
