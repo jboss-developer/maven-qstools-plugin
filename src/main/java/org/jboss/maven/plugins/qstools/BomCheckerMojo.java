@@ -16,7 +16,10 @@
  */
 package org.jboss.maven.plugins.qstools;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.apache.maven.model.Dependency;
 import org.apache.maven.model.DependencyManagement;
@@ -26,8 +29,10 @@ import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.apache.maven.project.MavenProject;
+import org.jboss.shrinkwrap.resolver.api.NoResolvedResultException;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 
 /**
@@ -41,6 +46,9 @@ public class BomCheckerMojo extends AbstractMojo {
 
     @Component
     private MavenProject project;
+    
+    @Parameter(property="qstools.bom-check.failbuild", defaultValue="true")
+    private boolean failbuild;
 
     /*
      * (non-Javadoc)
@@ -49,7 +57,10 @@ public class BomCheckerMojo extends AbstractMojo {
      */
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
-        getLog().info("Verifying if the project Dependency Management is resolvable");
+        //Shut up Shrinkwrap resolver
+        Logger.getLogger("org.jboss.shrinkwrap.resolver.impl").setLevel(Level.SEVERE);
+        List<NoResolvedResultException> exceptions = new ArrayList<NoResolvedResultException>();
+        getLog().info("Verifying if the dependencies on project's Dependency Management section are resolvable");
         DependencyManagement depmgmt = project.getDependencyManagement();
         if (depmgmt != null) {
             List<Dependency> dependencies = depmgmt.getDependencies();
@@ -59,15 +70,30 @@ public class BomCheckerMojo extends AbstractMojo {
                     && (dep.getScope().equals("runtime") || dep.getScope().equals("system"))) {
                     getLog().debug("Ignoring runtime/system dependency " + dep);
                 } else {
-                    String pkg = dep.getType() == null ? "jar" : dep.getType();
-                    String gav = dep.getGroupId() + ":" + dep.getArtifactId() + ":" + pkg + ":" + dep.getVersion();
-                    getLog().debug("Trying to resolve " + gav);
-                    Maven.resolver().loadPomFromFile(project.getFile()).resolve(gav).withMavenCentralRepo(true).withClassPathResolution(false).withTransitivity().asFile();
+                    try {
+                        String pkg = dep.getType() == null ? "jar" : dep.getType();
+                        String gav = dep.getGroupId() + ":" + dep.getArtifactId() + ":" + pkg + ":" + dep.getVersion();
+                        getLog().debug("Trying to resolve " + gav);
+                        Maven.resolver().loadPomFromFile(project.getFile()).resolve(gav).withMavenCentralRepo(true).withClassPathResolution(false).withTransitivity().asFile();
+                    } catch (NoResolvedResultException e) {
+                        //Collect all resolution failures
+                        exceptions.add(e);
+                    }
                 }
 
             }
         }
-        getLog().info("All Dependencies were resolved");
+        if (exceptions.isEmpty()) {
+            getLog().info("All Dependencies were resolved");
+        } else {
+            getLog().info("The following dependencies where NOT resolved:");
+            for (NoResolvedResultException e : exceptions) {
+                getLog().info(e.getMessage());
+            }
+            if (failbuild){
+                throw new MojoFailureException("Unresolved dependencies on project");
+            }
+        }
 
     }
 

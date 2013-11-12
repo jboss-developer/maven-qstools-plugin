@@ -87,6 +87,18 @@ To run the plugin:
     mvn -U org.jboss.maven.plugins:maven-qstools-plugin:bom-check
     
 
+By default, the project build will fail if some managed dependenciy is not resolvable. You can overwrite this behavior by using `qstools.bom-check.failbuild` property:
+
+    mvn -U org.jboss.maven.plugins:maven-qstools-plugin:bom-check -Dqstools.bom-check.failbuild=false
+    
+
+To specify a custom settings.xml file you must use `org.apache.maven.user-settings` property. This is because [Shrinkwrap Resolver](https://github.com/shrinkwrap/resolver#resolution-of-artifacts-specified-by-maven-coordinates) doesn't consume settings.xml you specified on command line (-s settings.xml) or in the IDE. It reads settings.xml files at their standard locations, which are `~/.m2/settings.xml` and `$M2_HOME/conf/settings.xml` unless overridden in the API or via System property.
+
+Example:
+
+    mvn -U org.jboss.maven.plugins:maven-qstools-plugin:bom-check -Dorg.apache.maven.user-settings=<your custom settings.xml>
+    
+
 Syncronizing Archetypes with Quickstarts
 ----------------------------------------
 
