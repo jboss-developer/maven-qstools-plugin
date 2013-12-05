@@ -55,6 +55,7 @@ public class FinalNameFixer extends AbstractBaseFixerAdapter {
             if (buildNode == null) {
                 buildNode = doc.createElement("build");
                 Node projectNode = (Node) getxPath().evaluate("/project", doc, XPathConstants.NODE);
+                projectNode.appendChild(doc.createTextNode("    "));
                 projectNode.appendChild(buildNode);
             }
 
