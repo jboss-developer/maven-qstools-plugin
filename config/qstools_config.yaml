@@ -88,9 +88,20 @@ rules:
 
        #element order in pom.xml
        pom-order:
+         - "modelVersion"
          - "parent"
-         - "modules"
+         - "groupId"
+         - "artifactId"
+         - "version"
+         - "packaging"
+         - "name"
+         - "description"
+         - "url"
+         - "licenses"
+         - "organization"
+         - "scm"
          - "properties"
+         - "modules"
          - "dependencyManagement"
          - "dependencies"
          - "build"
