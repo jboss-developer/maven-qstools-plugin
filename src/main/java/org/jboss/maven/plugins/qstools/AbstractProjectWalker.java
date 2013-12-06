@@ -116,12 +116,6 @@ public abstract class AbstractProjectWalker implements QSChecker, QSFixer {
                             this.getClass().getSimpleName(),
                             project.getGroupId(),
                             project.getArtifactId()));
-                    } else if (configurationProvider.getQuickstartsRules(project.getGroupId()).isFixerIgnored(this)) {
-                        String msg = "Skiping %s for %s:%s";
-                        log.warn(String.format(msg,
-                            this.getClass().getSimpleName(),
-                            project.getGroupId(),
-                            project.getArtifactId()));
                     } else {
                         switch (walkType) {
                             case CHECK:
@@ -151,7 +145,7 @@ public abstract class AbstractProjectWalker implements QSChecker, QSFixer {
         }
         return (Integer) node.getUserData(PositionalXMLReader.BEGIN_LINE_NUMBER_KEY_NAME);
     }
-
+    
     protected void removePreviousWhiteSpace(Node node) {
 
         Node prev = node.getPreviousSibling();

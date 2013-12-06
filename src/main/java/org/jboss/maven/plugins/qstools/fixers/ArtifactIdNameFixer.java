@@ -16,13 +16,6 @@
  */
 package org.jboss.maven.plugins.qstools.fixers;
 
-import java.io.FileInputStream;
-import java.util.List;
-
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathFactory;
-
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.project.MavenProject;
@@ -38,9 +31,16 @@ import org.jboss.maven.plugins.qstoolsc.common.ArtifactIdNameUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathFactory;
+import java.io.File;
+import java.io.FileInputStream;
+import java.util.List;
+
 /**
  * Fixer for {@link org.jboss.maven.plugins.qstools.checkers.ArtifactIdNameChecker}
- * 
+ *
  * @author Paul Robinson
  */
 @Component(role = QSFixer.class, hint = "ArtifactIdPrefixFixer")
@@ -55,39 +55,32 @@ public class ArtifactIdNameFixer implements QSFixer {
     private ArtifactIdNameUtil artifactIdNameUtil;
 
     @Override
-    public void fix(MavenProject project, MavenSession mavenSession, List<MavenProject> reactorProjects, Log log)
-        throws QSCheckerException {
+    public void fix(MavenProject project, MavenSession mavenSession, List<MavenProject> reactorProjects, Log log) throws QSCheckerException {
 
         try {
-            if (configurationProvider.getQuickstartsRules(project.getGroupId()).isFixerIgnored(this)) {
-                String msg = "Skiping %s for %s:%s";
-                log.warn(String.format(msg, this.getClass().getSimpleName(), project.getGroupId(), project.getArtifactId()));
-            } else {
-                Rules rules = configurationProvider.getQuickstartsRules(project.getGroupId());
-                List<ArtifactIdNameUtil.PomInformation> pomsWithInvalidArtifactIds = artifactIdNameUtil.findAllIncorrectArtifactIdNames(reactorProjects,
-                    rules);
+            Rules rules = configurationProvider.getQuickstartsRules(project.getGroupId());
+            List<ArtifactIdNameUtil.PomInformation> pomsWithInvalidArtifactIds = artifactIdNameUtil.findAllIncorrectArtifactIdNames(reactorProjects, rules);
 
-                // Update each incorrect artifactId
-                for (ArtifactIdNameUtil.PomInformation pi : pomsWithInvalidArtifactIds) {
-                    Document doc = PositionalXMLReader.readXML(new FileInputStream(pi.getProject().getFile()));
-                    Node artifactIdNode = (Node) xPath.evaluate("/project/artifactId", doc, XPathConstants.NODE);
-                    artifactIdNode.setTextContent(pi.getExpectedArtifactId());
-                    XMLWriter.writeXML(doc, pi.getProject().getFile());
-                }
+            //Update each incorrect artifactId
+            for (ArtifactIdNameUtil.PomInformation pi : pomsWithInvalidArtifactIds) {
+                Document doc = PositionalXMLReader.readXML(new FileInputStream(pi.getProject().getFile()));
+                Node artifactIdNode = (Node) xPath.evaluate("/project/artifactId", doc, XPathConstants.NODE);
+                artifactIdNode.setTextContent(pi.getExpectedArtifactId());
+                XMLWriter.writeXML(doc, pi.getProject().getFile());
+            }
 
-                // Update all the parents, to use the changed artifactId
-                for (MavenProject subProject : reactorProjects) {
+            //Update all the parents, to use the changed artifactId
+            for (MavenProject subProject : reactorProjects) {
 
-                    Document doc = PositionalXMLReader.readXML(new FileInputStream(subProject.getFile()));
-                    Node parentArtifactIdNode = (Node) xPath.evaluate("/project/parent/artifactId", doc, XPathConstants.NODE);
-                    if (parentArtifactIdNode != null && subProject.getParentFile() != null) {
-                        Document parentDoc = PositionalXMLReader.readXML(new FileInputStream(subProject.getParentFile()));
-                        Node artifactIdNode = (Node) xPath.evaluate("/project/artifactId", parentDoc, XPathConstants.NODE);
+                Document doc = PositionalXMLReader.readXML(new FileInputStream(subProject.getFile()));
+                Node parentArtifactIdNode = (Node) xPath.evaluate("/project/parent/artifactId", doc, XPathConstants.NODE);
+                if (parentArtifactIdNode != null && subProject.getParentFile() != null) {
+                    Document parentDoc = PositionalXMLReader.readXML(new FileInputStream(subProject.getParentFile()));
+                    Node artifactIdNode = (Node) xPath.evaluate("/project/artifactId", parentDoc, XPathConstants.NODE);
 
-                        if (!parentArtifactIdNode.getTextContent().equals(artifactIdNode.getTextContent())) {
-                            parentArtifactIdNode.setTextContent(artifactIdNode.getTextContent());
-                            XMLWriter.writeXML(doc, subProject.getFile());
-                        }
+                    if (!parentArtifactIdNode.getTextContent().equals(artifactIdNode.getTextContent())) {
+                        parentArtifactIdNode.setTextContent(artifactIdNode.getTextContent());
+                        XMLWriter.writeXML(doc, subProject.getFile());
                     }
                 }
             }

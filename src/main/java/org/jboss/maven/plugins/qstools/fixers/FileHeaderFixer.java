@@ -42,49 +42,43 @@ public class FileHeaderFixer implements QSFixer {
         Rules rules = configurationProvider.getQuickstartsRules(project.getGroupId());
         // Execute License-Maven-Plugin - http://code.mycila.com/license-maven-plugin/reports/2.3/format-mojo.html
         try {
-            if (configurationProvider.getQuickstartsRules(project.getGroupId()).isFixerIgnored(this)) {
-                String msg = "Skiping %s for %s:%s";
-                log.warn(String.format(msg, this.getClass().getSimpleName(), project.getGroupId(), project.getArtifactId()));
-            } else {
-                // Get Excluded files
-                List<Element> excludes = new ArrayList<Element>();
-                for (String exclude : rules.getExcludesArray()) {
-                    excludes.add(element("exclude", exclude));
-                }
-                for (String exclude : rules.getFixerSpecificExcludesArray(this)) {
-                    excludes.add(element("exclude", exclude));
-                }
-                List<Element> includes = new ArrayList<Element>();
-
-                // Get includes extensions
-                String[] includesExtensions = new String[] {
-                    "**/*.xml",
-                    "**/*.xsd",
-                    "**/*.java",
-                    "**/*.js",
-                    "**/*.properties",
-                    "**/*.html",
-                    "**/*.xhtml",
-                    "**/*.sql",
-                    "**/*.css" };
-
-                for (String include : includesExtensions) {
-                    includes.add(element("include", include));
-                }
-
-                pluginManager = (BuildPluginManager) context.get(Constants.PLUGIN_MANAGER);
-                executeMojo(plugin(groupId("com.mycila"), artifactId("license-maven-plugin"), version("2.5")),
-                    goal("format"),
-                    configuration(element(name("header"), rules.getLicenseFileLocation()),
-                        element(name("aggregate"), "true"),
-                        element(name("strictCheck"), "true"),
-                        element(name("encoding"), "utf-8"),
-                        element(name("headerDefinitions"),
-                            element(name("headerDefinition"), rules.getHeaderDefinitionLocation())),
-                        element(name("includes"), includes.toArray(new Element[] {})),
-                        element(name("excludes"), excludes.toArray(new Element[] {}))),
-                    executionEnvironment(project, mavenSession, pluginManager));
+            // Get Excluded files
+            List<Element> excludes = new ArrayList<Element>();
+            for (String exclude : rules.getExcludesArray()) {
+                excludes.add(element("exclude", exclude));
             }
+            for (String exclude : rules.getFixerSpecificExcludesArray(this)) {
+                excludes.add(element("exclude", exclude));
+            }
+            List<Element> includes = new ArrayList<Element>();
+
+            // Get includes extensions
+            String[] includesExtensions = new String[] {
+                "**/*.xml",
+                "**/*.xsd",
+                "**/*.java",
+                "**/*.js",
+                "**/*.properties",
+                "**/*.html",
+                "**/*.xhtml",
+                "**/*.sql",
+                "**/*.css" };
+
+            for (String include : includesExtensions) {
+                includes.add(element("include", include));
+            }
+
+            pluginManager = (BuildPluginManager) context.get(Constants.PLUGIN_MANAGER);
+            executeMojo(plugin(groupId("com.mycila"), artifactId("license-maven-plugin"), version("2.5")),
+                goal("format"),
+                configuration(element(name("header"), rules.getLicenseFileLocation()),
+                    element(name("aggregate"), "true"),
+                    element(name("strictCheck"), "true"),
+                    element(name("encoding"), "utf-8"),
+                    element(name("headerDefinitions"), element(name("headerDefinition"), rules.getHeaderDefinitionLocation())),
+                    element(name("includes"), includes.toArray(new Element[] {})),
+                    element(name("excludes"), excludes.toArray(new Element[] {}))),
+                executionEnvironment(project, mavenSession, pluginManager));
         } catch (Exception e) {
             throw new QSCheckerException(e);
         }

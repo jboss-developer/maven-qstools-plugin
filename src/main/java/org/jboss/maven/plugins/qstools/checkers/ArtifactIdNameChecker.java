@@ -16,12 +16,6 @@
  */
 package org.jboss.maven.plugins.qstools.checkers;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.project.MavenProject;
@@ -32,7 +26,20 @@ import org.jboss.maven.plugins.qstools.QSCheckerException;
 import org.jboss.maven.plugins.qstools.Violation;
 import org.jboss.maven.plugins.qstools.config.ConfigurationProvider;
 import org.jboss.maven.plugins.qstools.config.Rules;
+import org.jboss.maven.plugins.qstools.xml.PositionalXMLReader;
 import org.jboss.maven.plugins.qstoolsc.common.ArtifactIdNameUtil;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathFactory;
+import java.io.File;
+import java.io.FileInputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * @author Rafael Benevides

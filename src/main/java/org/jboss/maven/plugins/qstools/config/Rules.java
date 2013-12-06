@@ -44,12 +44,6 @@ public class Rules {
     }
 
     @SuppressWarnings("unchecked")
-    public boolean isFixerIgnored(QSFixer fixer) {
-        List<String> ignoredFixers = (List<String>) getConfig("ignored-fixers");
-        return ignoredFixers.contains(fixer.getClass().getSimpleName());
-    }
-
-    @SuppressWarnings("unchecked")
     public List<String> getIgnoredUnusedProperties() {
         return (List<String>) getConfig("ignored-unused-properties");
     }

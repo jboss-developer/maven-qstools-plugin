@@ -57,27 +57,24 @@ public class UnusedPropertiesFixer extends AbstractBaseFixerAdapter {
     @Override
     public void fix(MavenProject project, MavenSession mavenSession, List<MavenProject> reactorProjects, Log log)
         throws QSCheckerException {
+
         try {
-            if (configurationProvider.getQuickstartsRules(project.getGroupId()).isFixerIgnored(this)) {
-                String msg = "Skiping %s for %s:%s";
-                log.warn(String.format(msg, this.getClass().getSimpleName(), project.getGroupId(), project.getArtifactId()));
-            } else {
-                Rules rules = configurationProvider.getQuickstartsRules(project.getGroupId());
-                List<UnusedPropertiesUtil.PomInformation> unusedPropertyInfo = unusedPropertiesUtil.findUnusedProperties(reactorProjects,
-                    rules);
+            Rules rules = configurationProvider.getQuickstartsRules(project.getGroupId());
+            List<UnusedPropertiesUtil.PomInformation> unusedPropertyInfo = unusedPropertiesUtil.findUnusedProperties(reactorProjects,
+                rules);
 
-                for (UnusedPropertiesUtil.PomInformation pomInfo : unusedPropertyInfo) {
-                    Document doc = PositionalXMLReader.readXML(new FileInputStream(pomInfo.getProject().getFile()));
-                    Node unusedPropertyNode = (Node) xPath.evaluate("/project/properties/" + pomInfo.getProperty(),
-                        doc,
-                        XPathConstants.NODE);
+            for (UnusedPropertiesUtil.PomInformation pomInfo : unusedPropertyInfo) {
+                Document doc = PositionalXMLReader.readXML(new FileInputStream(pomInfo.getProject().getFile()));
+                Node unusedPropertyNode = (Node) xPath.evaluate("/project/properties/" + pomInfo.getProperty(),
+                    doc,
+                    XPathConstants.NODE);
 
-                    removePreviousWhiteSpace(unusedPropertyNode);
-                    unusedPropertyNode.getParentNode().removeChild(unusedPropertyNode);
+                removePreviousWhiteSpace(unusedPropertyNode);
+                unusedPropertyNode.getParentNode().removeChild(unusedPropertyNode);
 
-                    XMLWriter.writeXML(doc, pomInfo.getProject().getFile());
-                }
+                XMLWriter.writeXML(doc, pomInfo.getProject().getFile());
             }
+
         } catch (Exception e) {
             throw new QSCheckerException(e);
         }
