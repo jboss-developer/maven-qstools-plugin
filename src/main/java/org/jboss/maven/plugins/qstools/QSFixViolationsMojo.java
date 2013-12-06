@@ -94,7 +94,7 @@ public class QSFixViolationsMojo extends AbstractMojo {
                 Set<QSFixer> fixerSelected = new TreeSet(fixerComparator);
 
                 while (!answer.matches("(Q|q)|(R|r)")) {
-                    getLog().warn("Please, select the Fixers that you want to run.");
+                    getLog().warn("Please select the Fixers you want to run. Selected Fixers are denoted by a leading '*'.");
                     int x = 0;
                     StringBuilder sb = new StringBuilder("\n");
                     for (QSFixer fixer : fixers) {
@@ -105,13 +105,14 @@ public class QSFixViolationsMojo extends AbstractMojo {
                         String part2 = " - " + fixer.getFixerDescription() + "\n";
                         sb.append(part1padded + part2);
                     }
+                    sb.append("    A - Select All             - Add all Fixers to the list to be run\n");
+                    sb.append("    N - Select None            - Remove all currently selected Fixers from the list to be run\n");
                     sb.append("\n");
-                    sb.append("    A - Select All\n");
-                    sb.append("    N - Select None\n");
-                    sb.append("    R - RUN THE FIXERS\n");
+                    sb.append("    R - Run the plugin using the selected list of fixers (denoted by an *)\n");
+                    sb.append("    Q - Quit without running any fixers\n");
                     sb.append("\n");
-                    sb.append("    Q - Quit\n");
-                    sb.append("\n\nType the number of the Fixer to select/deselect it. Or one of the options[A|N|R|Q].");
+                    sb.append("Enter the number of the Fixer to select/deselect it. Enter 'A' to select all. Enter 'N' to deselect all. ");
+                    sb.append("\n\nWhen ready, enter 'R' to run the selected list of Fixers or 'Q' to quit.");
                     getLog().info(sb);
                     answer = new Scanner(System.in).nextLine();
 
