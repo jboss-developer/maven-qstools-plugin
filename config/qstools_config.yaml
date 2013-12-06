@@ -87,7 +87,7 @@ rules:
          - "Level:": "Beginner|Intermediate|Advanced"
          - "Technologies:": "\\w.*"
          - "Summary:": "\\w.*"
-         - "Target Product:": "EAP|WFK|JPP|JDG|Fuse|FSW|BRMS|Sandbox"
+         - "Target Product:": "EAP|WFK|JPP|JDG|JBoss ON|Fuse|FSW|BRMS|Sandbox"
          - "Source:": "<(http|https)://\\w.*>" #<http://www.etc...>
 
        #element order in pom.xml
@@ -186,6 +186,8 @@ rules:
          - org.jboss.bom|jboss-javaee-6.0-with-tools: org.jboss.bom.wfk|jboss-javaee-6.0-with-tools|version.jboss.bom.wfk
    - &jdg
        groupid: org.jboss.quickstarts.jdg
+   - &jboss-on
+       groupid: org.jboss.quickstarts.jboss-on
    - &jpp
        groupid: org.jboss.quickstarts.jpp
        ignored-checkers:
@@ -229,6 +231,9 @@ quickstarts:
    org.jboss.quickstarts.jdg:
      - *default
      - *jdg
+   org.jboss.quickstarts.jboss-on:
+     - *default
+     - *jboss-on
    org.jboss.quickstarts.jpp:
      - *default
      - *jpp
