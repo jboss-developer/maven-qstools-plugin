@@ -37,6 +37,11 @@ public class FileHeaderFixer implements QSFixer {
     private ConfigurationProvider configurationProvider;
 
     @Override
+    public String getFixerDescription() {
+        return "Fix the license header on all files";
+    }
+
+    @Override
     public void fix(MavenProject project, MavenSession mavenSession, List<MavenProject> reactorProjects, Log log)
         throws QSCheckerException {
         Rules rules = configurationProvider.getQuickstartsRules(project.getGroupId());

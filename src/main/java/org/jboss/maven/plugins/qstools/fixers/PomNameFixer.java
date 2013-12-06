@@ -24,6 +24,11 @@ public class PomNameFixer extends AbstractBaseFixerAdapter {
     
     @Requirement
     private PomNameUtil pomNameUtil;
+    
+    @Override
+    public String getFixerDescription() {
+        return "Replace the <name/> on pom.xml with the expected pattern";
+    }
 
     @Override
     public void fixProject(MavenProject project, Document doc) throws Exception {

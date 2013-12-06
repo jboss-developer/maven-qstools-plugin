@@ -77,17 +77,6 @@ You can run:
 
 `NOTE:` It's high recommended that you have your changes saved before running this plugin because it modifies your pom files.
 
-### Running individual fixers
-
-You can run individual fixers informing their names on the `qstools.fixers` property. Example:
-
-    mvn -U org.jboss.maven.plugins:maven-qstools-plugin:fix 
-      -Dqstools.fixers=UnusedPropertiesFixer,XMLTabFixer
-      
-
-`NOTE:` The list of existing fixers can be found here: <https://github.com/jboss-developer/maven-qstools-plugin/tree/master/src/main/java/org/jboss/maven/plugins/qstools/fixers>
-
-
 ## If you need to update quickstarts BOMs
 
 

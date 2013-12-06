@@ -53,6 +53,11 @@ public class UnusedPropertiesFixer extends AbstractBaseFixerAdapter {
 
     @Requirement
     private UnusedPropertiesUtil unusedPropertiesUtil;
+    
+    @Override
+    public String getFixerDescription() {
+        return "Remove unused properties from pom.xml files";
+    }
 
     @Override
     public void fix(MavenProject project, MavenSession mavenSession, List<MavenProject> reactorProjects, Log log)

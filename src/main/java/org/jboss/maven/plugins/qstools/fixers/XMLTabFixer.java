@@ -23,6 +23,11 @@ import com.google.common.io.Files;
 public class XMLTabFixer extends AbstractBaseFixerAdapter {
 
     @Override
+    public String getFixerDescription() {
+        return "Replace [TABS] by [spaces] on XMLs files";
+    }
+
+    @Override
     public void fixProject(MavenProject project, Document doc) throws Exception {
         List<File> xmlFiles = FileUtils.getFiles(project.getBasedir(),"**/*.xml", "");
         for (File xmlSource: xmlFiles){
@@ -33,4 +38,5 @@ public class XMLTabFixer extends AbstractBaseFixerAdapter {
         }
 
     }
+
 }

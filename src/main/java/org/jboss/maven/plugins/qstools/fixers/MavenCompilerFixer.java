@@ -36,6 +36,11 @@ import javax.xml.xpath.XPathConstants;
 public class MavenCompilerFixer extends AbstractBaseFixerAdapter {
 
     @Override
+    public String getFixerDescription() {
+        return "Fix the maven.compiler.(source|target) from pom.xml files";
+    }
+    
+    @Override
     public void fixProject(MavenProject project, Document doc) throws Exception {
 
         String compilerSource = getConfigurationProvider().getQuickstartsRules(project.getGroupId()).getExpectedCompilerSource();

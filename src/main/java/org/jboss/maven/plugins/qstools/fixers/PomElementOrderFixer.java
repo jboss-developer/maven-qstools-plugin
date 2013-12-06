@@ -20,6 +20,11 @@ public class PomElementOrderFixer extends AbstractBaseFixerAdapter {
 
     @Requirement
     private PomOrderUtil pomOrderUtil;
+    
+    @Override
+    public String getFixerDescription() {
+        return "Fix the pom.xml element order";
+    }
 
     @Override
     public void fixProject(MavenProject project, Document doc) throws Exception {

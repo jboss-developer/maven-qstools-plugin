@@ -12,7 +12,14 @@ public abstract class AbstractBaseCheckerAdapter extends AbstractProjectWalker {
     }
 
     @Override
+    public String getFixerDescription() {
+        // Empty method
+        return null;
+    }
+
+    @Override
     public int order() {
         return 0;
     }
+    
 }

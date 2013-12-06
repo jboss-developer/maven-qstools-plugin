@@ -22,6 +22,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
 
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.AbstractMojo;
@@ -34,7 +35,10 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.apache.maven.project.MavenProject;
+import org.apache.maven.shared.utils.StringUtils;
 import org.codehaus.plexus.PlexusContainer;
+
+import edu.emory.mathcs.backport.java.util.TreeSet;
 
 /**
  * This Mojo is used to check if all Dependencies declared in a </dependencyManagement> section of a BOM is resolvable.
@@ -42,8 +46,9 @@ import org.codehaus.plexus.PlexusContainer;
  * @author Rafael Benevides
  * 
  */
-@Mojo(name = "fix", defaultPhase = LifecyclePhase.VERIFY, requiresDependencyResolution = ResolutionScope.COMPILE, requiresProject = true, threadSafe = true, aggregator = true)
-public class FixViolationsMojo extends AbstractMojo {
+@Mojo(name = "fix", defaultPhase = LifecyclePhase.VERIFY, requiresDependencyResolution = ResolutionScope.COMPILE,
+    requiresProject = true, threadSafe = true, aggregator = true)
+public class QSFixViolationsMojo extends AbstractMojo {
 
     @Component
     private PlexusContainer container;
@@ -60,14 +65,9 @@ public class FixViolationsMojo extends AbstractMojo {
     /**
      * Overwrite the config file
      */
-    @Parameter(property = "qstools.configFileURL", defaultValue = "https://raw.github.com/jboss-developer/maven-qstools-plugin/master/config/qstools_config.yaml")
+    @Parameter(property = "qstools.configFileURL",
+        defaultValue = "https://raw.github.com/jboss-developer/maven-qstools-plugin/master/config/qstools_config.yaml")
     private URL configFileURL;
-
-    /**
-     * Enable only the following list of Fixers
-     */
-    @Parameter(property = "qstools.fixers")
-    private List<String> enabledFixers;
 
     @Parameter(property = "reactorProjects", readonly = true, required = true)
     private List<MavenProject> reactorProjects;
@@ -77,41 +77,69 @@ public class FixViolationsMojo extends AbstractMojo {
      * 
      * @see org.apache.maven.plugin.Mojo#execute()
      */
+    @SuppressWarnings("unchecked")
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
         try {
             configurePlugin();
-            getLog().warn("Running this plugin CAN MODIFY your files. Make sure to have your changes commited before running this plugin");
+            getLog()
+                .warn(
+                    "Running this plugin CAN MODIFY your files. Make sure to have your changes commited before running this plugin");
             getLog().warn("Do you want to continue[yes/NO]");
             String answer = new Scanner(System.in).nextLine();
             if (answer.equalsIgnoreCase("yes")) {
                 List<QSFixer> fixersFound = container.lookupList(QSFixer.class);
-                // sort the checkers
                 List<QSFixer> fixers = new ArrayList<QSFixer>(fixersFound);
-                Collections.sort(fixers, new Comparator<QSFixer>() {
+                Collections.sort(fixers, fixerComparator);
+                Set<QSFixer> fixerSelected = new TreeSet(fixerComparator);
 
-                    @Override
-                    public int compare(QSFixer o1, QSFixer o2) {
-                        int value = Integer.valueOf(o1.order()).compareTo(o2.order());
-                        if (value == 0) {
-                            return o1.getClass().getSimpleName().compareTo(o2.getClass().getSimpleName());
-                        } else {
-                            return value;
-                        }
+                while (!answer.matches("(Q|q)|(R|r)")) {
+                    getLog().warn("Please, select the Fixers that you want to run.");
+                    int x = 0;
+                    StringBuilder sb = new StringBuilder("\n");
+                    for (QSFixer fixer : fixers) {
+                        x++;
+                        String part1 =
+                            "  " + (fixerSelected.contains(fixer) ? "* " : "  ") + x + " - " + fixer.getClass().getSimpleName();
+                        String part1padded = StringUtils.rightPad(part1, 30);
+                        String part2 = " - " + fixer.getFixerDescription() + "\n";
+                        sb.append(part1padded + part2);
                     }
-                });
-                for (QSFixer fixer : fixers) {
-                    System.out.println("FIXER" + enabledFixers);
-                    // if fixers was specified, run only those informed fixers
-                    if (enabledFixers.size() == 0
-                        || (enabledFixers.size() > 0 && enabledFixers.contains(fixer.getClass().getSimpleName()))) {
+                    sb.append("\n");
+                    sb.append("    A - Select All\n");
+                    sb.append("    N - Select None\n");
+                    sb.append("    R - RUN THE FIXERS\n");
+                    sb.append("\n");
+                    sb.append("    Q - Quit\n");
+                    sb.append("\n\nType the number of the Fixer to select/deselect it. Or one of the options[A|N|R|Q].");
+                    getLog().info(sb);
+                    answer = new Scanner(System.in).nextLine();
+
+                    // if selected a fixer (number from 1 to 99)
+                    if (answer.matches("[1-9][0-9]*")) {
+                        QSFixer selectedFixer = fixers.get((Integer.parseInt(answer) - 1));
+                        if (fixerSelected.contains(selectedFixer)) {
+                            fixerSelected.remove(selectedFixer);
+                        } else {
+                            fixerSelected.add(selectedFixer);
+                        }
+                    } else if (answer.equalsIgnoreCase("A")) {
+                        fixerSelected.addAll(fixersFound);
+                    } else if (answer.equalsIgnoreCase("N")) {
+                        fixerSelected.clear();
+                    }
+                }
+                // Execute the fixers
+                if (answer.equalsIgnoreCase("R")) {
+                    for (QSFixer fixer : fixerSelected) {
                         getLog().info("Running Fixer: " + fixer.getClass().getSimpleName());
                         fixer.fix(mavenProject, mavenSession, reactorProjects, getLog());
                     }
+                    getLog().info(
+                        " ***** All projects were processed! Total Processed: " + reactorProjects.size()
+                            + "\nRun [mvn clean compile] to get sure that everything is working"
+                            + "\nRun [git diff] to see the changes made." + "\n");
                 }
-                getLog().info(" ***** All projects were processed! Total Processed: " + reactorProjects.size()
-                    + "\nRun [mvn clean compile] to get sure that everything is working"
-                    + "\nRun [git diff] to see the changes made." + "\n");
             } else {
                 getLog().info("Aborted");
             }
@@ -133,5 +161,18 @@ public class FixViolationsMojo extends AbstractMojo {
         container.getContext().put(Constants.IGNORED_QUICKSTARTS_CONTEXT, Utils.readIgnoredFile());
         container.getContext().put(Constants.PLUGIN_MANAGER, pluginManager);
     }
+
+    private Comparator<QSFixer> fixerComparator = new Comparator<QSFixer>() {
+
+        @Override
+        public int compare(QSFixer o1, QSFixer o2) {
+            int value = Integer.valueOf(o1.order()).compareTo(o2.order());
+            if (value == 0) {
+                return o1.getClass().getSimpleName().compareTo(o2.getClass().getSimpleName());
+            } else {
+                return value;
+            }
+        }
+    };
 
 }

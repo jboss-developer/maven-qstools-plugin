@@ -35,6 +35,11 @@ import com.google.common.io.Files;
  */
 @Component(role = QSFixer.class, hint = "JavaSourcesFormatFixer")
 public class JavaSourcesFormatFixer extends AbstractBaseFixerAdapter {
+    
+    @Override
+    public String getFixerDescription() {
+        return "Run the Eclipse source code formatter on all Java source files";
+    }
 
     @SuppressWarnings("unchecked")
     @Override

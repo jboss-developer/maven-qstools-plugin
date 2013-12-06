@@ -16,6 +16,13 @@
  */
 package org.jboss.maven.plugins.qstools.fixers;
 
+import java.io.FileInputStream;
+import java.util.List;
+
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathFactory;
+
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.project.MavenProject;
@@ -31,16 +38,9 @@ import org.jboss.maven.plugins.qstoolsc.common.ArtifactIdNameUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathFactory;
-import java.io.File;
-import java.io.FileInputStream;
-import java.util.List;
-
 /**
  * Fixer for {@link org.jboss.maven.plugins.qstools.checkers.ArtifactIdNameChecker}
- *
+ * 
  * @author Paul Robinson
  */
 @Component(role = QSFixer.class, hint = "ArtifactIdPrefixFixer")
@@ -55,13 +55,18 @@ public class ArtifactIdNameFixer implements QSFixer {
     private ArtifactIdNameUtil artifactIdNameUtil;
 
     @Override
+    public String getFixerDescription() {
+        return "Fix the <artifactId/> to match the folder name on pom.xml files";
+    }
+
+    @Override
     public void fix(MavenProject project, MavenSession mavenSession, List<MavenProject> reactorProjects, Log log) throws QSCheckerException {
 
         try {
             Rules rules = configurationProvider.getQuickstartsRules(project.getGroupId());
             List<ArtifactIdNameUtil.PomInformation> pomsWithInvalidArtifactIds = artifactIdNameUtil.findAllIncorrectArtifactIdNames(reactorProjects, rules);
 
-            //Update each incorrect artifactId
+            // Update each incorrect artifactId
             for (ArtifactIdNameUtil.PomInformation pi : pomsWithInvalidArtifactIds) {
                 Document doc = PositionalXMLReader.readXML(new FileInputStream(pi.getProject().getFile()));
                 Node artifactIdNode = (Node) xPath.evaluate("/project/artifactId", doc, XPathConstants.NODE);
@@ -69,7 +74,7 @@ public class ArtifactIdNameFixer implements QSFixer {
                 XMLWriter.writeXML(doc, pi.getProject().getFile());
             }
 
-            //Update all the parents, to use the changed artifactId
+            // Update all the parents, to use the changed artifactId
             for (MavenProject subProject : reactorProjects) {
 
                 Document doc = PositionalXMLReader.readXML(new FileInputStream(subProject.getFile()));

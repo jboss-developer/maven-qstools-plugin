@@ -22,4 +22,11 @@ public interface QSFixer {
      * @return
      */
     public int order();
+    
+    /**
+     * Defines the description on what the fixer will fix
+     * 
+     * @return
+     */
+    public String getFixerDescription();
 }

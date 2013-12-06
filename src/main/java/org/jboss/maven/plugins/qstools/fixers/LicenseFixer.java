@@ -37,6 +37,11 @@ import org.w3c.dom.Node;
 public class LicenseFixer extends AbstractBaseFixerAdapter {
 
     @Override
+    public String getFixerDescription() {
+        return "Apply Apache V2 license to all pom.xml files";
+    }
+    
+    @Override
     public void fixProject(MavenProject project, Document doc) throws Exception {
         Node licenseURL = (Node) getxPath().evaluate("/project/licenses/license/url", doc, XPathConstants.NODE);
         if (licenseURL == null || !licenseURL.getTextContent().contains("apache")) {

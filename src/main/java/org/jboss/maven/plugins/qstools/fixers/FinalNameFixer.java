@@ -34,6 +34,11 @@ import javax.xml.xpath.XPathConstants;
 public class FinalNameFixer extends AbstractBaseFixerAdapter {
 
     @Override
+    public String getFixerDescription() {
+        return "Fix <finalName/> on all pom.xml files";
+    }
+
+    @Override
     public void fixProject(MavenProject project, Document doc) throws Exception {
 
         String packaging = project.getPackaging();
