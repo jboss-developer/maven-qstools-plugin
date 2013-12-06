@@ -206,6 +206,8 @@ rules:
    - &switchyard
        groupid: org.switchyard.quickstarts
        artifactid-prefix: "switchyard-"
+       pom-name-pattern: "SwitchYard Quickstart: <project-folder>"
+       pom-name-pattern-submodule: "SwitchYard Quickstart: <project-folder> - <submodule-folder>"
 
 #Quickstarts
 quickstarts:
