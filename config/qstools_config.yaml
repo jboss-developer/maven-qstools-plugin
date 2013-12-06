@@ -71,6 +71,10 @@ rules:
        ignored-checkers:
          - ClassNameChecker #non-existent checker just as example
 
+       #List of Fixers that should be ignored. Use Class name as value
+       ignored-fixers:
+         - ClassNameFixer #non-existent fixer just as example
+
        ignored-unused-properties:
          - stacks.branch
          - maven.compiler.source
