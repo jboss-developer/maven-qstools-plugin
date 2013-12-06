@@ -71,6 +71,10 @@ rules:
        ignored-checkers:
          - ClassNameChecker #non-existent checker just as example
 
+       #List of Fixers that should be ignored. Use Class name as value
+       ignored-fixers:
+         - ClassNameFixer #non-existent fixer just as example
+
        ignored-unused-properties:
          - stacks.branch
          - maven.compiler.source
@@ -88,9 +92,20 @@ rules:
 
        #element order in pom.xml
        pom-order:
+         - "modelVersion"
          - "parent"
-         - "modules"
+         - "groupId"
+         - "artifactId"
+         - "version"
+         - "packaging"
+         - "name"
+         - "description"
+         - "url"
+         - "licenses"
+         - "organization"
+         - "scm"
          - "properties"
+         - "modules"
          - "dependencyManagement"
          - "dependencies"
          - "build"
@@ -195,6 +210,8 @@ rules:
    - &switchyard
        groupid: org.switchyard.quickstarts
        artifactid-prefix: "switchyard-"
+       pom-name-pattern: "SwitchYard Quickstart: <project-folder>"
+       pom-name-pattern-submodule: "SwitchYard Quickstart: <project-folder> - <submodule-folder>"
 
 #Quickstarts
 quickstarts:

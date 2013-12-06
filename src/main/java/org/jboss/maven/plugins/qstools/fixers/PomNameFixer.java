@@ -31,6 +31,12 @@ public class PomNameFixer extends AbstractBaseFixerAdapter {
         String pattern = pomNameUtil.getExpectedPattern(project, rules);
         if (!pattern.equals(project.getName())) {
             Node nameNode = (Node) getxPath().evaluate("/project/name", doc, XPathConstants.NODE);
+            if (nameNode == null) {
+                nameNode = doc.createElement("name");
+                Node projectNode = (Node) getxPath().evaluate("/project", doc, XPathConstants.NODE);
+                projectNode.appendChild(doc.createTextNode("    "));
+                projectNode.appendChild(nameNode);
+            }
             nameNode.setTextContent(pattern);
             XMLWriter.writeXML(doc, project.getFile());
         }
