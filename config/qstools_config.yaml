@@ -213,6 +213,11 @@ rules:
          - ReadmeChecker #Stacks-client is not a quickstart
          - DependencyChecker #Stacks-client doesn't use BOMs
          - FinalNameChecker #Stacks-client is a library, not an application
+   - &switchyard
+       groupid: org.switchyard.quickstarts
+       artifactid-prefix: "switchyard-"
+       pom-name-pattern: "SwitchYard Quickstart: <project-folder>"
+       pom-name-pattern-submodule: "SwitchYard Quickstart: <project-folder> - <submodule-folder>"
 
 #Quickstarts
 quickstarts:
@@ -245,3 +250,6 @@ quickstarts:
    org.jboss.stacks:
      - *default
      - *stacks
+   org.switchyard.quickstarts:
+     - *default
+     - *switchyard
