@@ -173,6 +173,7 @@ rules:
 
        excludes-FileHeaderChecker:
            - "**/petclinic-spring/**"
+           - "**/test/resources/xml/*.xml"
 
        excludes-FileHeaderFixer:
            - "**/petclinic-spring/**"
