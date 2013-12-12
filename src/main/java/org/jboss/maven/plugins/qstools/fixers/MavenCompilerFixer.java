@@ -47,8 +47,8 @@ public class MavenCompilerFixer extends AbstractBaseFixerAdapter {
         String compilerSource = getConfigurationProvider().getQuickstartsRules(project.getGroupId()).getExpectedCompilerSource();
 
         ensurePropertiesElementExists(doc);
-        ensurePropertySet(project, doc, "maven.compiler.target", compilerSource);
-        ensurePropertySet(project, doc, "maven.compiler.source", compilerSource);
+        ensurePropertySet(doc, "maven.compiler.target", compilerSource);
+        ensurePropertySet(doc, "maven.compiler.source", compilerSource);
 
         Node pluginsNode = (Node) getxPath().evaluate("/project/build/plugins", doc, XPathConstants.NODE);
         Node compilerNode = (Node) getxPath().evaluate("/project/build/plugins/plugin[artifactId='maven-compiler-plugin']", doc, XPathConstants.NODE);
@@ -83,19 +83,18 @@ public class MavenCompilerFixer extends AbstractBaseFixerAdapter {
         }
     }
 
-    private void ensurePropertySet(MavenProject project, Document doc, String key, String value) throws Exception {
+    private void ensurePropertySet(Document doc, String key, String value) throws Exception {
 
         Element propertiesElement = (Element) getxPath().evaluate("/project/properties", doc, XPathConstants.NODE);
-        String target = project.getProperties().getProperty(key);
+        Element property = (Element) getxPath().evaluate("/project/properties/"+key, doc, XPathConstants.NODE);
 
-        if (target == null) {
+        if (property == null) {
             Element targetElement = doc.createElement(key);
             targetElement.setTextContent(value);
             propertiesElement.appendChild(doc.createTextNode("    "));
             propertiesElement.appendChild(targetElement);
             propertiesElement.appendChild(doc.createTextNode("\n    "));
-        } else if (!target.equals(value)) {
-            Node property = (Node) getxPath().evaluate("/project/properties/" + key, doc, XPathConstants.NODE);
+        } else if (!property.getTextContent().equals(value)) {
             property.setTextContent(value);
         }
     }
