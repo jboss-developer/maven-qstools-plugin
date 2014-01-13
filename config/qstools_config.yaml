@@ -154,6 +154,7 @@ rules:
            - ".*"
            #known libraries
            - "**/angular*"
+           - "**/additional-methods*"
            - "**/backbone*"
            - "**/*cordova*/**"
            - "**/*glyphicons*/**"
