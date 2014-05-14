@@ -28,8 +28,8 @@ rules:
          - org.jboss.bom.wfk: 2.6.0-build-1
          - org.jboss.bom.brms: 6.0.2-build-1
          - org.jboss.bom.sandbox: 1.0.0-SNAPSHOT
-         - org.jboss.spec: 3.0.2.Final-redhat-4
-         - org.jboss.as: 7.2.1.Final-redhat-10
+         - org.jboss.spec: 3.0.2.Final-redhat-7
+         - org.jboss.as: 7.3.2.Final-redhat-2
          
        #Community to Product BOMs - Used only on 'updateBoms' Goal
        project-boms-migration:
