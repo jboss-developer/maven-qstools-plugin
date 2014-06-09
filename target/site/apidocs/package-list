@@ -1,0 +1,7 @@
+org.jboss.maven.plugins.qstools
+org.jboss.maven.plugins.qstools.checkers
+org.jboss.maven.plugins.qstools.common
+org.jboss.maven.plugins.qstools.config
+org.jboss.maven.plugins.qstools.fixers
+org.jboss.maven.plugins.qstools.maven
+org.jboss.maven.plugins.qstools.xml
