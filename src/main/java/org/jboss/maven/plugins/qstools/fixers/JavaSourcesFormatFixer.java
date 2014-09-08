@@ -26,6 +26,7 @@ import java.util.Map;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.shared.utils.io.FileUtils;
 import org.codehaus.plexus.component.annotations.Component;
+import org.codehaus.plexus.component.annotations.Requirement;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.ToolFactory;
 import org.eclipse.jdt.core.formatter.CodeFormatter;
@@ -35,6 +36,7 @@ import org.eclipse.text.edits.TextEdit;
 import org.jboss.maven.plugins.qstools.QSFixer;
 import org.jboss.maven.plugins.qstools.checkers.IndentationChecker;
 import org.jboss.maven.plugins.qstools.checkers.TabSpaceChecker;
+import org.jboss.maven.plugins.qstools.config.Resources;
 import org.jboss.maven.plugins.qstools.config.Rules;
 import org.jboss.maven.plugins.qstools.xml.PositionalXMLReader;
 import org.w3c.dom.Document;
@@ -51,6 +53,9 @@ import com.google.common.io.Files;
  */
 @Component(role = QSFixer.class, hint = "JavaSourcesFormatFixer")
 public class JavaSourcesFormatFixer extends AbstractBaseFixerAdapter {
+
+    @Requirement
+    private Resources resources;
 
     @Override
     public String getFixerDescription() {
@@ -71,7 +76,7 @@ public class JavaSourcesFormatFixer extends AbstractBaseFixerAdapter {
         options.put(JavaCore.COMPILER_SOURCE, compilerSource);
 
         // Configure CodeFormatter with Eclipse XML Formatter Profile
-        InputStream xmlInputStream = getConfigurationProvider().getFileInputStream(new URL(rules.getEclipseFormatterProfileLocation()));
+        InputStream xmlInputStream = resources.getFileInputStream(new URL(rules.getEclipseFormatterProfileLocation()));
         Document formatterSettingsDoc = PositionalXMLReader.readXML(xmlInputStream);
         NodeList settingsNodes = formatterSettingsDoc.getElementsByTagName("setting");
         for (int i = 0; i < settingsNodes.getLength(); i++) {

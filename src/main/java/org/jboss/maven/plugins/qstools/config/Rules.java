@@ -37,6 +37,10 @@ public class Rules {
         this.configurations = configurations;
     }
 
+    public String getRedHatMavenProfileSnippetLocation() {
+        return (String) getConfig("redhat-maven-repository-profile-location");
+    }
+
     @SuppressWarnings("unchecked")
     public boolean isCheckerIgnored(QSChecker checker) {
         List<String> ignoredCheckers = (List<String>) getConfig("ignored-checkers");
@@ -47,7 +51,7 @@ public class Rules {
     public List<String> getIgnoredUnusedProperties() {
         return (List<String>) getConfig("ignored-unused-properties");
     }
-    
+
     @SuppressWarnings("unchecked")
     public List<String> getIgnoredDifferentValuesProperties() {
         return (List<String>) getConfig("ignored-differet-value-properties");
@@ -193,6 +197,5 @@ public class Rules {
         }
         return value;
     }
-
 
 }

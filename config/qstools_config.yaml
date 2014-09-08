@@ -63,6 +63,9 @@ rules:
        #Eclipse Formatter Profile XML settings Location. Used to run Formatter Fixers
        eclipse-formatter-location: "https://raw.github.com/jboss/ide-config/master/eclipse/jboss-java-formatter.xml"
 
+       #Red Hat Maven Repository definition
+       redhat-maven-repository-profile-location: "https://raw.githubusercontent.com/jboss-developer/maven-qstools-plugin/master/config/default/repository-profile.xml"
+
        #Ignored modules on ModuleDefinedChecker - Checks if all project subdirectories are defined as module
        ignored-modules:
          - "dist"

@@ -25,10 +25,14 @@ import java.io.IOException;
 
 import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.component.annotations.Component;
+import org.codehaus.plexus.component.annotations.Requirement;
 import org.jboss.maven.plugins.qstools.config.Rules;
 
 @Component(role = PomNameUtil.class)
 public class PomNameUtil {
+    
+    @Requirement
+    private ProjectUtil projectUtil;
 
     public String getExpectedPattern(MavenProject project, Rules rules) throws IOException {
         String pomNamePattern = rules.getPomNamePattern();
@@ -36,7 +40,7 @@ public class PomNameUtil {
         String folderName = project.getBasedir().getName();
         String parentFolder = project.getBasedir().getParentFile().getName();
         String pattern;
-        if (isSubProjec(project)) {
+        if (projectUtil.isSubProjec(project)) {
             // Get Target Product from parent Readme
             File parentReadme = new File(project.getBasedir().getParent(), "README.md");
             String targetProject = getTargetProduct(parentReadme);
@@ -76,15 +80,5 @@ public class PomNameUtil {
         }
     }
 
-    /**
-     * HAcky way to determine if the project is a maven submodule or not. It uses the presence of root README.md to determine if
-     * it is a submodule
-     * 
-     * @param project
-     * @return
-     */
-    private boolean isSubProjec(MavenProject project) {
-        return ((!new File(project.getBasedir(), "README.md").exists()) && (new File(project.getBasedir().getParent(), "README.md").exists()));
-    }
-
+ 
 }
