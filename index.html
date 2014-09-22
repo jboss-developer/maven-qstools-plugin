@@ -1,37 +1,37 @@
 <!DOCTYPE html>
 <html>
+
   <head>
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <title>JBoss Developer maven-qstools-plugin by jboss-developer</title>
+    <meta name="description" content="JBoss Developer maven-qstools-plugin : Utility belt for jboss developer materials">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>JBoss Developer maven-qstools-plugin</title>
   </head>
 
   <body>
-    <div id="container">
-      <div class="inner">
 
-        <header>
-          <h1>JBoss Developer maven-qstools-plugin</h1>
-          <h2>Utility belt for jboss developer materials</h2>
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/jboss-developer/maven-qstools-plugin">View on GitHub</a>
+
+          <h1 id="project_title">JBoss Developer maven-qstools-plugin</h1>
+          <h2 id="project_tagline">Utility belt for jboss developer materials</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/jboss-developer/maven-qstools-plugin/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/jboss-developer/maven-qstools-plugin/tarball/master">Download this project as a tar.gz file</a>
+            </section>
         </header>
+    </div>
 
-        <section id="downloads" class="clearfix">
-          <a href="https://github.com/jboss-developer/maven-qstools-plugin/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
-          <a href="https://github.com/jboss-developer/maven-qstools-plugin/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
-          <a href="https://github.com/jboss-developer/maven-qstools-plugin" id="view-on-github" class="button"><span>View on GitHub</span></a>
-        </section>
-
-        <hr>
-
-        <section id="main_content">
-          <h1>
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
 <a name="quickstarts-tools-maven-plugin" class="anchor" href="#quickstarts-tools-maven-plugin"><span class="octicon octicon-link"></span></a>Quickstarts tools maven plugin</h1>
 
 <p>Author: Rafael Benevides
@@ -58,7 +58,7 @@ Summary: Maven plugin that helps JBoss Developer materials maintenance</p>
 
 <p>Select a Maven project and run:</p>
 
-<pre><code>mvn -U org.jboss.maven.plugins:maven-qstools-plugin:check
+<pre><code>mvn -U org.jboss.maven.plugins:qstools:check
 </code></pre>
 
 <p>This will check your project and all modules to seek for potential violations.</p>
@@ -72,7 +72,7 @@ Summary: Maven plugin that helps JBoss Developer materials maintenance</p>
 
 <p>You can use a local config file by overwriting qstools property:</p>
 
-<pre><code>mvn -U org.jboss.maven.plugins:maven-qstools-plugin:check
+<pre><code>mvn -U org.jboss.maven.plugins:qstools:check
      -Dqstools.configFileURL=file:///Users/rafaelbenevides/path/qstools_config.yaml
 </code></pre>
 
@@ -100,7 +100,7 @@ Summary: Maven plugin that helps JBoss Developer materials maintenance</p>
 
 <p>You can run:</p>
 
-<pre><code>mvn -U org.jboss.maven.plugins:maven-qstools-plugin:fix
+<pre><code>mvn -U org.jboss.maven.plugins:qstools:fix
 </code></pre>
 
 <p><code>NOTE:</code> It's high recommended that you have your changes saved before running this plugin because it modifies your pom files.</p>
@@ -116,7 +116,7 @@ Summary: Maven plugin that helps JBoss Developer materials maintenance</p>
 
 <p>To run the plugin:</p>
 
-<pre><code>mvn -U org.jboss.maven.plugins:maven-qstools-plugin:updateBoms
+<pre><code>mvn -U org.jboss.maven.plugins:qstools:updateBoms
 </code></pre>
 
 <h2>
@@ -126,14 +126,14 @@ Summary: Maven plugin that helps JBoss Developer materials maintenance</p>
 
 <p>To run the plugin: </p>
 
-<pre><code>mvn -U org.jboss.maven.plugins:maven-qstools-plugin:bom-check
+<pre><code>mvn -U org.jboss.maven.plugins:qstools:bom-check
 </code></pre>
 
 <p>If you need to ignore certain known dependencies from being checked, you can use the <code>qstools.bom-check.ignoredDependencies</code> property.</p>
 
 <p>Example:</p>
 
-<pre><code>mvn -U org.jboss.maven.plugins:maven-qstools-plugin:bom-check 
+<pre><code>mvn -U org.jboss.maven.plugins:qstools:bom-check 
    -Dqstools.bom-check.ignoredDependencies=&lt;groupId 1&gt;:&lt;artifactId 1&gt;:jar:&lt;version 1&gt;,&lt;groupId 2&gt;:&lt;artifactId 2&gt;:jar:&lt;version 2&gt;
 </code></pre>
 
@@ -142,7 +142,7 @@ This will run on <code>REPORT ONLY</code> mode.</p>
 
 <p>Example:</p>
 
-<pre><code>mvn -U org.jboss.maven.plugins:maven-qstools-plugin:bom-check 
+<pre><code>mvn -U org.jboss.maven.plugins:qstools:bom-check 
    -Dqstools.bom-check.failbuild=false
 </code></pre>
 
@@ -150,7 +150,7 @@ This will run on <code>REPORT ONLY</code> mode.</p>
 
 <p>Example:</p>
 
-<pre><code>mvn -U org.jboss.maven.plugins:maven-qstools-plugin:bom-check 
+<pre><code>mvn -U org.jboss.maven.plugins:qstools:bom-check 
    -Dorg.apache.maven.user-settings=&lt;your custom settings.xml&gt;
 </code></pre>
 
@@ -164,15 +164,15 @@ This will run on <code>REPORT ONLY</code> mode.</p>
 <pre><code>    &lt;plugins&gt;
         &lt;plugin&gt;
             &lt;groupId&gt;org.jboss.maven.plugins&lt;/groupId&gt;
-            &lt;artifactId&gt;maven-qstools-plugin&lt;/artifactId&gt;
-            &lt;version&gt;1.3.3-SNAPSHOT&lt;/version&gt;
+            &lt;artifactId&gt;qstools&lt;/artifactId&gt;
+            &lt;version&gt;1.5.0.CR1&lt;/version&gt;
             &lt;configuration&gt;
                 &lt;projectGitRepo&gt;git://github.com/jboss-developer/jboss-eap-quickstarts.git&lt;/projectGitRepo&gt;
                 &lt;projectPath&gt;kitchensink-ear&lt;/projectPath&gt;
                 &lt;rootPackage&gt;org.jboss.as.quickstarts.kitchensink_ear&lt;/rootPackage&gt;
                 &lt;multiModuleProject&gt;true&lt;/multiModuleProject&gt;
                 &lt;applyPatch&gt;A-patch-file.patch&lt;/applyPatch&gt;
-                &lt;branch&gt;jdf-2.1.7.Final&lt;/branch&gt;
+                &lt;branch&gt;[a branch name or a commit hash]&lt;/branch&gt;
                 &lt;archetypeExpressionReplaceValues&gt;
                     &lt;archetypeExpressionReplaceValue&gt;jboss-as-kitchensink-ear&lt;/archetypeExpressionReplaceValue&gt;
                     &lt;archetypeExpressionReplaceValue&gt;kitchensink-ear-quickstart&lt;/archetypeExpressionReplaceValue&gt;
@@ -208,17 +208,20 @@ This will run on <code>REPORT ONLY</code> mode.</p>
 
 <p>You can turn on debugging messages:   </p>
 
-<pre><code>mvn -U org.jboss.maven.plugins:maven-qstools-plugin:check -X
+<pre><code>mvn -U org.jboss.maven.plugins:qstools:check -X
 </code></pre>
-        </section>
-
-        <footer>
-          JBoss Developer maven-qstools-plugin is maintained by <a href="https://github.com/jboss-developer">jboss-developer</a><br>
-          This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
-        </footer>
-
-        
-      </div>
+      </section>
     </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">JBoss Developer maven-qstools-plugin maintained by <a href="https://github.com/jboss-developer">jboss-developer</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
   </body>
 </html>
