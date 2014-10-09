@@ -83,13 +83,13 @@ Summary: Maven plugin that helps JBoss Developer materials maintenance</p>
 
 <p>If you need to use a custom Stacks.yaml definition you can overwrite the stacks url adding the property <code>qstools.stacks.url</code> to the command line:</p>
 
-<pre><code>mvn -U org.jboss.maven.plugins:maven-qstools-plugin:check
+<pre><code>mvn -U org.jboss.maven.plugins:qstools:check
    -Dqstools.stacks.url=file:/somewhere/on/your/disk/stacks.yaml
 </code></pre>
 
 <p>or</p>
 
-<pre><code>mvn -U org.jboss.maven.plugins:maven-qstools-plugin:(check)
+<pre><code>mvn -U org.jboss.maven.plugins:qstools:(check)
    -Dqstools.stacks.url=http://www.somewhere.net/somepath/stacks.yaml
 </code></pre>
 
@@ -155,7 +155,7 @@ This will run on <code>REPORT ONLY</code> mode.</p>
 </code></pre>
 
 <h2>
-<a name="syncronizing-archetypes-with-quickstarts" class="anchor" href="#syncronizing-archetypes-with-quickstarts"><span class="octicon octicon-link"></span></a>Syncronizing Archetypes with Quickstarts</h2>
+<a name="synchronizing-archetypes-with-quickstarts" class="anchor" href="#synchronizing-archetypes-with-quickstarts"><span class="octicon octicon-link"></span></a>Synchronizing Archetypes with Quickstarts</h2>
 
 <p>QSTools can be used on archetype to synchronize the archetype-resources with a given project</p>
 
@@ -165,7 +165,7 @@ This will run on <code>REPORT ONLY</code> mode.</p>
         &lt;plugin&gt;
             &lt;groupId&gt;org.jboss.maven.plugins&lt;/groupId&gt;
             &lt;artifactId&gt;qstools&lt;/artifactId&gt;
-            &lt;version&gt;1.5.0.CR1&lt;/version&gt;
+            &lt;version&gt;1.5.0-SNAPSHOT&lt;/version&gt;
             &lt;configuration&gt;
                 &lt;projectGitRepo&gt;git://github.com/jboss-developer/jboss-eap-quickstarts.git&lt;/projectGitRepo&gt;
                 &lt;projectPath&gt;kitchensink-ear&lt;/projectPath&gt;
