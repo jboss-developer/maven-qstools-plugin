@@ -1,44 +1,44 @@
 <!DOCTYPE html>
 <html>
-
   <head>
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="description" content="JBoss Developer maven-qstools-plugin : Utility belt for jboss developer materials">
-
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
-
-    <title>JBoss Developer maven-qstools-plugin</title>
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <title>JBoss Developer maven-qstools-plugin by jboss-developer</title>
   </head>
 
   <body>
+    <div id="container">
+      <div class="inner">
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/jboss-developer/maven-qstools-plugin">View on GitHub</a>
-
-          <h1 id="project_title">JBoss Developer maven-qstools-plugin</h1>
-          <h2 id="project_tagline">Utility belt for jboss developer materials</h2>
-
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/jboss-developer/maven-qstools-plugin/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/jboss-developer/maven-qstools-plugin/tarball/master">Download this project as a tar.gz file</a>
-            </section>
+        <header>
+          <h1>JBoss Developer maven-qstools-plugin</h1>
+          <h2>Utility belt for jboss developer materials</h2>
         </header>
-    </div>
 
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
-        <h1>
-<a name="quickstarts-tools-maven-plugin" class="anchor" href="#quickstarts-tools-maven-plugin"><span class="octicon octicon-link"></span></a>Quickstarts tools maven plugin</h1>
+        <section id="downloads" class="clearfix">
+          <a href="https://github.com/jboss-developer/maven-qstools-plugin/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
+          <a href="https://github.com/jboss-developer/maven-qstools-plugin/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
+          <a href="https://github.com/jboss-developer/maven-qstools-plugin" id="view-on-github" class="button"><span>View on GitHub</span></a>
+        </section>
+
+        <hr>
+
+        <section id="main_content">
+          <h1>
+<a id="quickstarts-tools-maven-plugin" class="anchor" href="#quickstarts-tools-maven-plugin" aria-hidden="true"><span class="octicon octicon-link"></span></a>Quickstarts tools maven plugin</h1>
 
 <p>Author: Rafael Benevides
 Summary: Maven plugin that helps JBoss Developer materials maintenance</p>
 
 <h2>
-<a name="what-is-it" class="anchor" href="#what-is-it"><span class="octicon octicon-link"></span></a>What is it?</h2>
+<a id="what-is-it" class="anchor" href="#what-is-it" aria-hidden="true"><span class="octicon octicon-link"></span></a>What is it?</h2>
 
 <p>This a Maven Plugin that helps JBoss Developer materials maintenance.</p>
 
@@ -49,12 +49,12 @@ Summary: Maven plugin that helps JBoss Developer materials maintenance</p>
 <p>You can also use QSTools to synchronize an Maven Archetype with and existing project.</p>
 
 <h2>
-<a name="system-requirements" class="anchor" href="#system-requirements"><span class="octicon octicon-link"></span></a>System requirements</h2>
+<a id="system-requirements" class="anchor" href="#system-requirements" aria-hidden="true"><span class="octicon octicon-link"></span></a>System requirements</h2>
 
 <p>All you need is <a href="http://maven.apache.org/">Apache Maven 3.0.X</a> and a working internet connection.</p>
 
 <h2>
-<a name="checking-the-quickstarts-made-easy" class="anchor" href="#checking-the-quickstarts-made-easy"><span class="octicon octicon-link"></span></a>Checking the quickstarts made easy</h2>
+<a id="checking-the-quickstarts-made-easy" class="anchor" href="#checking-the-quickstarts-made-easy" aria-hidden="true"><span class="octicon octicon-link"></span></a>Checking the quickstarts made easy</h2>
 
 <p>Select a Maven project and run:</p>
 
@@ -66,9 +66,9 @@ Summary: Maven plugin that helps JBoss Developer materials maintenance</p>
 <p>The report will be generated at: <code>MAVEN_PROJECT/target/site/qschecker.html</code></p>
 
 <h3>
-<a name="configuring-qstools-checkers" class="anchor" href="#configuring-qstools-checkers"><span class="octicon octicon-link"></span></a>Configuring QSTools Checkers</h3>
+<a id="configuring-qstools" class="anchor" href="#configuring-qstools" aria-hidden="true"><span class="octicon octicon-link"></span></a>Configuring QSTools</h3>
 
-<p>QSTools configuration is made by editing the online file <a href="https://raw.github.com/jboss-developer/maven-qstools-plugin/master/config/qstools_config.yaml">https://raw.github.com/jboss-developer/maven-qstools-plugin/master/config/qstools_config.yaml</a></p>
+<p>QSTools configuration is made by editing the online file <a href="https://github.com/jboss-developer/maven-qstools-plugin/blob/master/config/qstools_config.yaml">https://github.com/jboss-developer/maven-qstools-plugin/blob/master/config/qstools_config.yaml</a></p>
 
 <p>You can use a local config file by overwriting qstools property:</p>
 
@@ -77,7 +77,7 @@ Summary: Maven plugin that helps JBoss Developer materials maintenance</p>
 </code></pre>
 
 <h3>
-<a name="using-a-custom-stacksyaml-definition" class="anchor" href="#using-a-custom-stacksyaml-definition"><span class="octicon octicon-link"></span></a>Using a custom stacks.yaml definition</h3>
+<a id="using-a-custom-stacksyaml-definition" class="anchor" href="#using-a-custom-stacksyaml-definition" aria-hidden="true"><span class="octicon octicon-link"></span></a>Using a custom stacks.yaml definition</h3>
 
 <p><a href="https://github.com/jboss-jdf/jdf-stack">Stacks</a> is used to check the BOM versions used on you project.</p>
 
@@ -94,7 +94,7 @@ Summary: Maven plugin that helps JBoss Developer materials maintenance</p>
 </code></pre>
 
 <h2>
-<a name="automatically-fixing-the-quickstarts" class="anchor" href="#automatically-fixing-the-quickstarts"><span class="octicon octicon-link"></span></a>Automatically fixing the quickstarts</h2>
+<a id="automatically-fixing-the-quickstarts" class="anchor" href="#automatically-fixing-the-quickstarts" aria-hidden="true"><span class="octicon octicon-link"></span></a>Automatically fixing the quickstarts</h2>
 
 <p>QSTools can fix most of the violations.</p>
 
@@ -106,7 +106,19 @@ Summary: Maven plugin that helps JBoss Developer materials maintenance</p>
 <p><code>NOTE:</code> It's high recommended that you have your changes saved before running this plugin because it modifies your pom files.</p>
 
 <h2>
-<a name="if-you-need-to-update-quickstarts-boms" class="anchor" href="#if-you-need-to-update-quickstarts-boms"><span class="octicon octicon-link"></span></a>If you need to update quickstarts BOMs</h2>
+<a id="setup-jboss-maven-approved-repositories" class="anchor" href="#setup-jboss-maven-approved-repositories" aria-hidden="true"><span class="octicon octicon-link"></span></a>Setup JBoss Maven approved repositories</h2>
+
+<p>QSTools can add/remove the  section on pom.xml files. It uses <a href="https://github.com/jboss-developer/maven-qstools-plugin/blob/master/config/qstools_config.yaml#L24">Approved JBoss Maven Repositories</a> list.</p>
+
+<p>You can run:</p>
+
+<pre><code>mvn -U org.jboss.maven.plugins:qstools:repositories
+</code></pre>
+
+<p><code>NOTE:</code> It's high recommended that you have your changes saved before running this plugin because it modifies your pom files.</p>
+
+<h2>
+<a id="if-you-need-to-update-quickstarts-boms" class="anchor" href="#if-you-need-to-update-quickstarts-boms" aria-hidden="true"><span class="octicon octicon-link"></span></a>If you need to update quickstarts BOMs</h2>
 
 <p>This goal will check the <a href="https://github.com/jboss-developer/maven-qstools-plugin/blob/master/config/qstools_config.yaml#L24">Expected BOM Version</a>  and update the BOM versions to the expected version.</p>
 
@@ -120,7 +132,7 @@ Summary: Maven plugin that helps JBoss Developer materials maintenance</p>
 </code></pre>
 
 <h2>
-<a name="checking-the-bom-dependencies" class="anchor" href="#checking-the-bom-dependencies"><span class="octicon octicon-link"></span></a>Checking the BOM dependencies</h2>
+<a id="checking-the-bom-dependencies" class="anchor" href="#checking-the-bom-dependencies" aria-hidden="true"><span class="octicon octicon-link"></span></a>Checking the BOM dependencies</h2>
 
 <p>This goal will check the given BOM project if all declared dependencies under  section is resolvable.</p>
 
@@ -137,7 +149,7 @@ Summary: Maven plugin that helps JBoss Developer materials maintenance</p>
    -Dqstools.bom-check.ignoredDependencies=&lt;groupId 1&gt;:&lt;artifactId 1&gt;:jar:&lt;version 1&gt;,&lt;groupId 2&gt;:&lt;artifactId 2&gt;:jar:&lt;version 2&gt;
 </code></pre>
 
-<p>By default, the project build will fail if some managed dependenciy is not resolvable. You can overwrite this behavior by using <code>qstools.bom-check.failbuild</code> property.
+<p>By default, the project build will fail if some managed dependency is not resolvable. You can overwrite this behavior by using <code>qstools.bom-check.failbuild</code> property.
 This will run on <code>REPORT ONLY</code> mode.</p>
 
 <p>Example:</p>
@@ -155,7 +167,7 @@ This will run on <code>REPORT ONLY</code> mode.</p>
 </code></pre>
 
 <h2>
-<a name="synchronizing-archetypes-with-quickstarts" class="anchor" href="#synchronizing-archetypes-with-quickstarts"><span class="octicon octicon-link"></span></a>Synchronizing Archetypes with Quickstarts</h2>
+<a id="synchronizing-archetypes-with-quickstarts" class="anchor" href="#synchronizing-archetypes-with-quickstarts" aria-hidden="true"><span class="octicon octicon-link"></span></a>Synchronizing Archetypes with Quickstarts</h2>
 
 <p>QSTools can be used on archetype to synchronize the archetype-resources with a given project</p>
 
@@ -165,7 +177,7 @@ This will run on <code>REPORT ONLY</code> mode.</p>
         &lt;plugin&gt;
             &lt;groupId&gt;org.jboss.maven.plugins&lt;/groupId&gt;
             &lt;artifactId&gt;qstools&lt;/artifactId&gt;
-            &lt;version&gt;1.5.0-SNAPSHOT&lt;/version&gt;
+            &lt;version&gt;1.5.1-SNAPSHOT&lt;/version&gt;
             &lt;configuration&gt;
                 &lt;projectGitRepo&gt;git://github.com/jboss-developer/jboss-eap-quickstarts.git&lt;/projectGitRepo&gt;
                 &lt;projectPath&gt;kitchensink-ear&lt;/projectPath&gt;
@@ -199,29 +211,26 @@ This will run on <code>REPORT ONLY</code> mode.</p>
 <p>The <code>archetypeExpressionReplaceValues</code> configuration is used to replace the given expression to the `${artifactId} expression.</p>
 
 <h2>
-<a name="plugin-documentation" class="anchor" href="#plugin-documentation"><span class="octicon octicon-link"></span></a>Plugin Documentation</h2>
+<a id="plugin-documentation" class="anchor" href="#plugin-documentation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Plugin Documentation</h2>
 
 <p>The plugin documentation <em>generated from mvn site</em> <a href="target/site/plugin-info.html">is available here</a> </p>
 
 <h2>
-<a name="troubleshooting" class="anchor" href="#troubleshooting"><span class="octicon octicon-link"></span></a>Troubleshooting</h2>
+<a id="troubleshooting" class="anchor" href="#troubleshooting" aria-hidden="true"><span class="octicon octicon-link"></span></a>Troubleshooting</h2>
 
 <p>You can turn on debugging messages:   </p>
 
 <pre><code>mvn -U org.jboss.maven.plugins:qstools:check -X
 </code></pre>
-      </section>
+        </section>
+
+        <footer>
+          JBoss Developer maven-qstools-plugin is maintained by <a href="https://github.com/jboss-developer">jboss-developer</a><br>
+          This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
+        </footer>
+
+        
+      </div>
     </div>
-
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">JBoss Developer maven-qstools-plugin maintained by <a href="https://github.com/jboss-developer">jboss-developer</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
-      </footer>
-    </div>
-
-    
-
   </body>
 </html>
